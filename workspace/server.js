@@ -26,7 +26,7 @@ router.use(express.static(path.resolve(__dirname, 'client')));
 var messages = [];
 var sockets = [];
 var countries=[];
-var fixtures=[];
+var highlights=[];
 var soccerama = new Soccerama('wIMWFKl2nxNH5M1IhKq0MkCqo2S1zOPWjbee0r5Jnpaq0UWERrP5GovGLucy', 'v2.0');
 var con = mysql.createConnection({
   host: "localhost", // ip address of server running mysql
@@ -38,7 +38,7 @@ var con = mysql.createConnection({
 
 
 io.on('connection', function (socket) {
-    updatedb();
+
     console.log("Updated")
     messages.forEach(function (data) {
       socket.emit('message', data);
@@ -78,12 +78,6 @@ io.on('connection', function (socket) {
   });
 function updatedb() {
 
-var con = mysql.createConnection({
-  host: "localhost", // ip address of server running mysql
-  user: "root", // user name to your mysql database
-  password: "" ,// corresponding password
-    database: "boibet"
-});
     soccerama.get('countries').then( function(data){
     countries=data.data;
 con.connect(function(err) {
@@ -92,8 +86,7 @@ con.connect(function(err) {
       //if (err) throw err;
   //})
   var sql = "create table thecountries (countryid INT, countryname Text, PRIMARY KEY(countryid))";
-  con.query(sql, function (err,result) {
-      if (err) throw err;
+
      var countrynames = countries.map(function (country) { return country.name; });
       var countryids = countries.map(function (countryid) { return countryid.id; });
 
@@ -112,8 +105,10 @@ con.connect(function(err) {
           }
   })
 });
-});
 
+}
+function updatefixtures() {
+    
 }
 function updateRoster() {
   async.map(
@@ -134,49 +129,105 @@ function broadcast(event, data) {
 }
 
 function country(){
-    soccerama.get('countries').then( function(data){
+
+  var q='DROP TABLE IF EXISTS countries';
+    con.query(q, function (err,res) {
+        if (err) throw err;
+        soccerama.get('countries').then( function(data){
     //id in the params field will replace {id} in the endpoint
     //competitions: true, will add include=competitions in query string
    // console.log(data.data);
     countries=data.data;
-    //console.log(data.data);
-    // connect to the database.
-con.connect(function(err) {
-  if (err) throw err;
-  var sql = "CREATE TABLE if not exists mycountries (countryid int ,countryname VARCHAR(255), primary key(countryid))";
+  var sql = "CREATE TABLE if not exists countries (countryid int ,countryname VARCHAR(255), primary key(countryid))";
   con.query(sql, function (err,result) {
       if (err) throw err;
      var countrynames = countries.map(function (country) { return country.name; });
       var countryids = countries.map(function (countryid) { return countryid.id; });
-
-
-     var mycountries=JSON.stringify(countrynames);
-
+      var TABLE = 'countries';
           for (var i = 0; i < countrynames.length; i++) {
-
-                 // var sql="insert into table countries (countyid,countryname) VALUES ('countryids[i]','countrynames[i]')"
-            //var datasql = "INSERT INTO countries (countryid,countryname) VALUES (''+countryids[i]','countrynames[i]'"
-              var TABLE='mycountries';
-             //var query=`insert into countries (countryid,countryname) VALUES ('1','kenya')`//${countryids[i]}${countrynames[i]}
               con.query('insert into '+ TABLE +' (countryid, countryname) values ("' + countryids[i] + '", "' + countrynames[i] + '")', function (err, results) {
                 if (err) throw err;
+
 
              })
           }
 
-              console.log("Values Inserted!");
-
-
+              fetchdbdata();
   })
 });
-});
 
+    })
 
 }
 
+function bookmarkers(){
+  var q='DROP TABLE IF EXISTS bookmarkers';
+  con.query(q,function (err, res) {
+      if (err) throw err;
+        soccerama.get('bookmakers').then( function(data){
+    bookmarkers=data.data;
+  var sql = "CREATE TABLE if not exists bookmarkers (bookmarkerid int ,bookmarkername VARCHAR(255), primary key (bookmarkerid))";
+  con.query(sql, function (err,result) {
+      if (err) throw err;
+
+     var id = bookmarkers.map(function (bookmarkerid) { return bookmarkerid.id; });
+     var name = bookmarkers.map(function (bookmarkername) { return bookmarkername.name; });
+
+      for (var i = 0; i < id.length; i++) {
+              var TABLE='bookmarkers';
+              con.query('insert into '+ TABLE +' (bookmarkerid, bookmarkername) values ("' + id[i] + '", "' + name[i] + '")', function (err, results) {
+                if (err) throw err;
+             })
+          }
+
+  })
+
+});
+  })
+}
+function updatehighlights(){
+      var q='DROP TABLE IF EXISTS highlights';
+  con.query(q,function (err, res) {
+      if (err) throw err;
+        soccerama.get('highlights').then( function(data){
+    highlights=data.data;
+  var sql = "CREATE TABLE if not exists highlights (id int auto_increment primary key ,fixtureid int ,location VARCHAR(255),datecreated text)";
+  con.query(sql, function (err,result) {
+      if (err) throw err;
+
+     var fixid = highlights.map(function (fixture) { return fixture.fixture_id; });
+
+     var name = highlights.map(function (name) { return name.location; });
+     var date = highlights.map(function (c) { return c.created_at.date; });
+
+
+      for (var i = 0; i < fixid.length; i++) {
+
+              var TABLE='highlights';
+              con.query('insert into '+ TABLE +' (id, fixtureid, location, datecreated) values ("' +null + '", "' + fixid[i] + '", "' + name[i] + '", "'+date[i]+'")', function (err, results) {
+                if (err) throw err;
+             })
+          }
+
+  })
+
+});
+  })
+}
+function fetchdbdata(){
+
+var sql ='select * from countries';
+con.query(sql,function (err,resp) {
+    if(err) throw err;
+
+    console.log(JSON.stringify(resp));
+})
+}
 
 server.listen(process.env.PORT || 3000, process.env.IP || "0.0.0.0", function(){
     country();
+    bookmarkers();
+    updatehighlights();
   var addr = server.address();
   console.log("Chat server listening at", addr.address + ":" + addr.port);
 });
