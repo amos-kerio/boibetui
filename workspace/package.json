@@ -8,6 +8,7 @@
   "dependencies": {
     "async": "~0.2.8",
     "express": "~3.2.4",
+    "mongodb": "^3.1.8",
     "mysql": "^2.16.0",
     "soccerama": "^2.0.1",
     "socket.io": "~0.9.14",
