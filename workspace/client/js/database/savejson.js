@@ -1,4 +1,5 @@
 var MongoClient = require('mongodb').MongoClient;
+var mysql=require('mysql');
 
 var bookmarkers=[];
 var countries=[];
@@ -80,7 +81,7 @@ function addcontinents(){
 });
 }
 function addFixtures(){
-    soccerama.get('fixtures/between/{from}/{to}',{from:'2018-10-20',to:'2018-10-27',localTeam: true,visitorTeam: true}).then( function(resp){
+    soccerama.get('fixtures/date/{date}',{date:'2018-10-24',localTeam: true,visitorTeam: true, flatOdds: true}).then( function(resp){
         var  page= resp.meta.pagination.total_pages;
     jsonData=resp.data;
     console.log('Fixtures collected');
@@ -218,12 +219,71 @@ function addlivescores() {
 
 });
 }
-addbookmarkes();
-addContries();
-addcontinents();
-addFixtures();
-addhighlights();
-addLeagues();
-addSeasons();
-addMarkets();
-addlivescores();
+function saveFixtures(){
+    soccerama.get('fixtures/date/{id}',{id:'2018-10-24',localTeam:true, visitorTeam:true, flatOdds:true}).then( function(data){
+    fixtures=data.data;
+
+    // connect to the database.
+con.connect(function(err) {
+  if (err) throw err;
+  var sql = "CREATE TABLE if not exists fixtures2 (fixtureid int ,localteam VARCHAR(255),visitorteam text,htvalue DECIMAL (4, 2) ,drawvalue DECIMAL (4, 2) ,vtvalue DECIMAL (4, 2), primary key (fixtureid))";
+  con.query(sql, function (err,result) {
+      if (err) throw err;
+     var fixid = fixtures.map(function (fixture) { return fixture.id; });
+
+      var lt = fixtures.map(function (local) { return local.localTeam.data.name; });
+       var vt = fixtures.map(function (visitor) { return visitor.visitorTeam.data.name; });
+     var odds = fixtures.map(function (odds) { return odds.flatOdds.data });
+
+            for (var n=0;n<odds.length;n++) {
+                var object = odds[n];
+                var books = object[0];
+
+                var x1,x2,x3;
+                for (var x=0;x<15; ++x){
+                    if (typeof(books)=='undefined') {
+                     //console.log("No values")
+                       x1 = 0;
+                     x2=0;
+                     x3=0
+                    }
+                    else {
+                        var mb = books.odds;
+                        x1 = mb[0].value;
+                        x2 = mb[1].value;
+                        x3 = mb[2].value;
+                    }
+                }
+                console.log(x1+ " X "+x2+"  "+x3);
+
+                var TABLE='fixtures2';
+                           con.query('insert into '+ TABLE +' (fixtureid, localteam, visitorteam,htvalue,drawvalue,vtvalue) values ("' + fixid[n] + '", "' + lt[n] + '", "'+vt[n]+'", "' + x1+'", "' + x2+'", "' + x3+'")', function (err, results) {
+                             if (err) throw err;
+
+                          })
+                       }
+
+                           console.log("Values Inserted!");
+
+
+
+});
+            });
+});
+var con = mysql.createConnection({
+  host: "localhost", // ip address of server running mysql
+  user: "root", // user name to your mysql database
+  password: "" ,// corresponding password
+    database: "boibet"
+});
+}
+//addbookmarkes();
+//addContries();
+//addcontinents();
+//addFixtures();
+//addhighlights();
+//addLeagues();
+//addSeasons();
+//addMarkets();
+//addlivescores();
+//saveFixtures();
