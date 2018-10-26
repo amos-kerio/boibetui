@@ -1,0 +1,7 @@
+mixin picture(path, name, type)
+    picture
+        each val in type
+            source(srcset=path + "/" + name + "." + val type="image/" + val)
+        img(src=path + "/" + name + ".jpg" alt=name)
+
++picture('https://unsplash.com/photos/F3M8FmvWQo4', 'photo-1516567727245-ad8c68f3ec93', ['jpg'])

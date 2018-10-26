@@ -1,21 +1,46 @@
-html
-    head
-        link(rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css")
-        link(href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet")
-        link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css")
-div.container
+extends header.pug
+block content
+     div.container
+           div.row
+                     div.col-md-8(style="margin-left: 30px")
+                                    h3(style={color:'#fff'}) Premier League Fixtures
+                                      table(class="table table-dark table-hover")
+                                          tr
+                                            th
+                                            th
+                                            th
+                                            th Home
+                                            th Draw
+                                            th Away
 
-    h1.text-primary  #{title}
-    ul
-        li #{name}
-        li #{name2}
-    table(class="table table-dark table-hover")
+                                          each user in users
+                                           tr
+                                                td !{user.date}
+                                                td !{user.localteam}
+                                                td !{user.visitorteam}
+                                                td !{user.htvalue}
+                                                td !{user.drawvalue}
+                                                td !{user.vtvalue}
 
-            each user in users
-                tr
-                    td !{user.localteam}
-                    td !{user.visitorteam}
-                    td !{user.htvalue}
-                    td !{user.drawvalue}
-                    td !{user.vtvalue}
+                                    h3(style={color:'#fff'})  League One Fixtures
+                                        table(class="table table-dark table-hover")
+                                            tr
+                                                th
+                                                th
+                                                th
+                                                th Home
+                                                th Draw
+                                                th Away
+                                            each leagues in leagueone
+                                             tr
+                                                 td !{leagues.date}
+                                                 td !{leagues.localteam}
+                                                 td !{leagues.visitorteam}
+                                                 td !{leagues.htvalue}
+                                                 td !{leagues.drawvalue}
+                                                 td !{leagues.vtvalue}
+                     div.col-md-3
+                         img(src='ball.jpg')
+
+
 
