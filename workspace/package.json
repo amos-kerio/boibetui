@@ -7,14 +7,19 @@
   "author": "Mostafa Eweda <mo.eweda@gmail.com>",
   "dependencies": {
     "async": "~0.2.8",
+    "ejs": "^2.6.1",
     "express": "~3.2.4",
     "http": "0.0.0",
     "mongodb": "^3.1.8",
     "mysql": "^2.16.0",
     "pug": "^2.0.3",
+    "pug-loader": "^2.4.0",
     "request": "^2.88.0",
     "soccerama": "^2.0.1",
     "socket.io": "~0.9.14",
     "sportmonks": "^1.2.0"
+  },
+  "devDependencies": {
+    "file-loader": "^2.0.0"
   }
 }

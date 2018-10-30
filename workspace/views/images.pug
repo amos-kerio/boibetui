@@ -1,7 +1,189 @@
-mixin picture(path, name, type)
-    picture
-        each val in type
-            source(srcset=path + "/" + name + "." + val type="image/" + val)
-        img(src=path + "/" + name + ".jpg" alt=name)
-
-+picture('https://unsplash.com/photos/F3M8FmvWQo4', 'photo-1516567727245-ad8c68f3ec93', ['jpg'])
+head
+  link(rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css')
+  link(href='//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css' rel='stylesheet')
+  link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css')
+  link#bootstrap-css(href='//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css' rel='stylesheet')
+  script(src='//code.jquery.com/jquery-1.11.1.min.js')
+  // ---- Include the above in your HEAD tag --------
+  script(src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js')
+  script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js')
+  script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js')
+div
+  nav.navbar.navbar-default.navbar-inverse(role='navigation' style='background-color: #25913E;')
+    .container-fluid
+      // Brand and toggle get grouped for better mobile display
+      // Collect the nav links, forms, and other content for toggling
+      #bs-example-navbar-collapse-1.collapse.navbar-collapse
+        ul.nav.navbar-nav
+          li.active
+            a(href='#') Link
+          li
+            a(href='#') Link
+          li.dropdown
+            a.dropdown-toggle(href='#' data-toggle='dropdown')
+              | Dropdown
+              span.caret
+            ul.dropdown-menu(role='menu')
+              li
+                a(href='#') Action
+              li
+                a(href='#') Another action
+              li
+                a(href='#') Something else here
+              li.divider
+              li
+                a(href='#') Separated link
+              li.divider
+              li
+                a(href='#') One more separated link
+        form.navbar-form.navbar-left(role='search')
+          .form-group
+            input.form-control(type='text' placeholder='Search')
+          button.btn.btn-default(type='submit') Submit
+        ul.nav.navbar-nav.navbar-right
+          li
+            p.navbar-text Already have an account?
+          li.dropdown
+            a.dropdown-toggle(href='#' data-toggle='dropdown')
+              b Login
+              span.caret
+            ul#login-dp.dropdown-menu
+              li
+                .row
+                  .col-md-12
+                    | Login via
+                    .social-buttons
+                      a.btn.btn-fb(href='#')
+                        i.fa.fa-facebook
+                        |  Facebook
+                      a.btn.btn-tw(href='#')
+                        i.fa.fa-twitter
+                        |  Twitter
+                    |                                 or
+                    form#login-nav.form(role='form' method='post' action='login' accept-charset='UTF-8')
+                      .form-group
+                        label.sr-only(for='exampleInputEmail2') Email address
+                        input#exampleInputEmail2.form-control(type='email' placeholder='Email address' required='')
+                      .form-group
+                        label.sr-only(for='exampleInputPassword2') Password
+                        input#exampleInputPassword2.form-control(type='password' placeholder='Password' required='')
+                        .help-block.text-right
+                          a(href='') Forget the password ?
+                      .form-group
+                        button.btn.btn-primary.btn-block(type='submit') Sign in
+                      .checkbox
+                        label
+                          input(type='checkbox')
+                          |  keep me logged-in
+                  .bottom.text-center
+                    | New here ?
+                    a(href='#')
+                      b Join Us
+      // /.navbar-collapse
+    // /.container-fluid
+  .container
+    img(src='images/ball')
+    h2 Latest Winning Tips
+    table.table.table-dark.table-hover
+      thead
+        tr
+          th Home Team
+          th Away Team
+          th Odds
+      tbody
+        tr
+          td John
+          td Doe
+          td john@example.com
+        tr
+          td Mary
+          td Moe
+          td mary@example.com
+        tr
+          td July
+          td Dooley
+          td july@example.com
+  .container
+    h2 Free Tips Today
+    table.table.table-dark.table-hover
+      thead
+        tr
+          th Home Team
+          th Away Team
+          th Odds
+      tbody
+        tr
+          td John
+          td Doe
+          td john@example.com
+        tr
+          td Mary
+          td Moe
+          td mary@example.com
+        tr
+          td July
+          td Dooley
+          td july@example.com
+.container
+  h2 Live Games
+  table.table.table-dark.table-hover
+    thead
+      tr
+        th Home Team
+        th Away Team
+        th Odds
+    tbody
+      tr
+        td John
+        td Doe
+        td john@example.com
+      tr
+        td Mary
+        td Moe
+        td mary@example.com
+      tr
+        td July
+        td Dooley
+        td july@example.com
+.container(style='background-color: #0e0e0e; width:100%;')
+  section(style='height:80px;')
+  footer.footer-bs(style='color:#fff;')
+    .row
+      .col-md-4.footer-nav.animated.fadeInUp
+        h4 Menu &mdash;
+        .col-md-6
+          ul.pages
+            li
+              a(href='#') Travel
+            li
+              a(href='#') Nature
+            li
+              a(href='#') Explores
+            li
+              a(href='#') Science
+            li
+              a(href='#') Advice
+        .col-md-6
+          ul.list
+            li
+              a(href='#') About Us
+            li
+              a(href='#') Contacts
+            li
+              a(href='#') Terms &amp; Condition
+            li
+              a(href='#') Privacy Policy
+      .col-md-2.footer-social.animated.fadeInDown
+        h4 Follow Us
+        ul
+          li
+            a(href='#') Facebook
+          li
+            a(href='#') Twitter
+          li
+            a(href='#') Instagram
+          li
+            a(href='#') RSS
+  section(style='text-align:center; margin:10px auto;')
+    p Boibet &copy;2018

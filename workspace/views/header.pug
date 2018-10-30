@@ -16,21 +16,67 @@ html
             script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js")
             script(src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js")
             script(src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js")
-
+            script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js")
+            script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js")
 
                     title.text-primary #{title}
 
 
     body(style={background: '#0E051E'})
-     nav(class="navbar navbar-inverse" )
-                div.container-fluid
-                    div.nav-header
-                        a.navbar-brand(href="#") BOIBET
-                    div
-                      ul(class="nav navbar-nav" style={display:'inline'})
-                         li(style={textsize: '30px'})
-                             a(href="#") HOME
-                         li
-                          a(href="#") MULTIBET
+        div.row
+            div.col-md-3(style={margin:'20px'})
+                h1(style={color:'#fff'}) BoiBet
+        nav.navbar.navbar-default.navbar-fixed-top(style='background-color: #000;')
+
+            .navbar-header
+                button.navbar-toggle(type='button' data-toggle='collapse' data-target='#myNavbar')
+                    span.glyphicon.glyphicon-menu-hamburger
+
+
+            nav.navbar.navbar-expand-sm.bg-dark.navbar-dark(style='text-align: #center; ')
+            // Brand
+            a.navbar-brand(href='#')(style=' color:#F5F510;') Home
+            style.
+                .vl {
+                    border-left: 1px solid white;
+                    height: 40px;
+                }
+
+            .vl
+
+            a.navbar-brand(href='#')(style=' color:#F5F510;') MultiBets
+            style.
+                .vl {
+                    border-left: 1px solid white;
+                    height: 40px;
+                }
+
+            .vl
+            a.navbar-brand(href='#')(style=' color:#F5F510;') JackPot Prediction
+            style.
+                .vl {
+                    border-left: 1px solid white;
+                    height: 40px;
+                }
+
+            .vl
+            a.navbar-brand(href='#')(style=' color:#F5F510;') Premium Tips
+            style.
+                .vl {
+                    border-left: 1px solid white;
+                    height: 40px;
+                }
+
+            .vl
+            a.navbar-brand(href='#')(style=' color:#F5F510;') Tipstars
+            style.
+                .vl {
+                    border-left: 1px solid white;
+                    height: 40px;
+                }
+
+            .vl
+            a.navbar-brand(href='#')(style=' color:#F5F510;') Statistics
+
 
     block content

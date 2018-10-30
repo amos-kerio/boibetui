@@ -1,46 +1,134 @@
 extends header.pug
 block content
-     div.container
+     div
            div.row
-                     div.col-md-8(style="margin-left: 30px")
-                                    h3(style={color:'#fff'}) Premier League Fixtures
-                                      table(class="table table-dark table-hover")
+                     div.col-md-2
+                         h3(style="margin-left:20px; color: yellow") Leagues
+
+                         table(class="table table-dark table-hover " style="margin-left:20px")
+                             each league in leagues
+                                 tr
+                                     td !{league.name}
+
+                     div(class="col-md-6")
+                         #carouselExampleControls.carousel.slide(data-ride='carousel')
+                             .carousel-inner
+                                 .carousel-item.active
+                                     img.d-block.w-100(src='http://masterminds.000webhostapp.com/img/the-ball-488717__340.jpg' alt='First slide' height='350px')
+                                 .carousel-item
+                                     img.d-block.w-100(src='http://masterminds.000webhostapp.com/img/pitch.jpg' alt='Second slide' height='350px')
+                                 .carousel-item
+                                     img.d-block.w-100(src='http://masterminds.000webhostapp.com/img/the-ball-488717__340.jpg' alt='Third slide' height='350px')
+                             a.carousel-control-prev(href='#carouselExampleControls' role='button' data-slide='prev')
+                                 span.carousel-control-prev-icon(aria-hidden='true')
+                                 span.sr-only Previous
+                             a.carousel-control-next(href='#carouselExampleControls' role='button' data-slide='next')
+                                 span.carousel-control-next-icon(aria-hidden='true')
+                                 span.sr-only Next
+
+
+                         h3(style={color:'#fff'}) Today Fixtures
+                                      table(class="table table-dark table-hover ")
                                           tr
                                             th
                                             th
                                             th
-                                            th Home
-                                            th Draw
-                                            th Away
+                                            th(style={color:"yellow"}) Home
+                                            th(style={color:"yellow"}) Draw
+                                            th(style={color:"yellow"}) Away
 
                                           each user in users
                                            tr
-                                                td !{user.date}
+                                                td !{user.time}
                                                 td !{user.localteam}
                                                 td !{user.visitorteam}
                                                 td !{user.htvalue}
-                                                td !{user.drawvalue}
+                                                td(style={color:"yellow"}) !{user.drawvalue}
                                                 td !{user.vtvalue}
 
-                                    h3(style={color:'#fff'})  League One Fixtures
+                         h3(style={color:'#fff'})  League One Fixtures
                                         table(class="table table-dark table-hover")
                                             tr
                                                 th
                                                 th
                                                 th
-                                                th Home
-                                                th Draw
-                                                th Away
+                                                th(style={color:"yellow"}) Home
+                                                th(style={color:"yellow"}) Draw
+                                                th(style={color:"yellow"}) Away
                                             each leagues in leagueone
                                              tr
                                                  td !{leagues.date}
                                                  td !{leagues.localteam}
                                                  td !{leagues.visitorteam}
                                                  td !{leagues.htvalue}
-                                                 td !{leagues.drawvalue}
+                                                 td(style={color:"yellow"}) !{leagues.drawvalue}
                                                  td !{leagues.vtvalue}
+                         h3(style={color: '#fff'})  Livescores Today
+                                        table(class="table table-dark table-hover ")
+
+                                              each ls in livescores
+                                                    tr
+                                                        td !{ls.localteam}
+                                                        td !{ls.visitorteam}
+                                                        td !{ls.localteamgoals}
+                                                        td !{ls.visitorteamgoals}
                      div.col-md-3
-                         img(src='ball.jpg')
+                        div(style="margin-right: 10px")
+                         img.img-responsive(src="http://masterminds.000webhostapp.com/img/pitch.jpg" alt="Picture")
+                         br
+                        div(style="margin-right: 10px")
+                         img.img-responsive(src="http://masterminds.000webhostapp.com/img/the-ball-488717__340.jpg" alt="Ball")
 
 
+           div.container(style='background-color: #0e0e0e; width:100%;')
+                       footer#fh5co-footer.fh5co-bg(role='contentinfo')
+                        .overlay
+                        .container
+                            .row.row-pb-md
+                                .col-md-4.fh5co-widget(style='color: #fff; ')
+                                    h3 A Little About Boibet
+                                    p
+                                        | Facilis ipsum reprehenderit nemo molestias. Aut cum mollitia reprehenderit. Eos cumque dicta adipisci architecto culpa amet.
+                                    p
+                                        a.btn.btn-primary(href='#') Become A Member
+                                .col-md-8
+                                    h3 Classes
+                                    .col-md-4.col-sm-4.col-xs-6(style='color: #fff; font-size:15px;')
+                                        ul.fh5co-footer-links(style='color: #B1B1A1; ')
+                                            li
+                                                a(href='#') Home
+                                            li
+                                                a(href='#') Help
+                                            li
+                                                a(href='#') Pricing plan
+                                            li
+                                                a(href='#') Terms%conditions
+
+                                    .col-md-4.col-sm-4.col-xs-6(style='color: #fff; font-size:15px;')
+                                        ul.fh5co-footer-links
+                                            li
+                                                a(href='#') How to pay
+                                            li
+                                                a(href='#') Contact
+                                            li
+                                                a(href='#') About us
+                                            li
+                                                a(href='#') FAQ
+
+                                    .col-md-4.col-sm-4.col-xs-6(style='color: #fff; font-size:15px;')
+                                        ul.fh5co-footer-links
+                                            li
+                                                a(href='#') Mail update
+                                            li
+                                                a(href='#') Sms update
+                                            li
+                                                a(href='#') Tipstars
+                                            li
+                                                a(href='#') Blog
+
+                            .row.copyright
+                                .col-md-12.text-center
+                                    p(style='color:#fff; font-size:10px;')
+                                        small.block &copy; 2018 | All Rights Reserved.
+                                        small.block Powered by  Boibet.com
 

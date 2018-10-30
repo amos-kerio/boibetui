@@ -1,6 +1,6 @@
 var MongoClient = require('mongodb').MongoClient;
 var mysql=require('mysql');
-
+var request= require('request');
 
 var con = mysql.createConnection({
   host: "localhost", // ip address of server running mysql
@@ -12,7 +12,7 @@ var bookmarkers=[];
 var countries=[];
 var continents=[];
 var jsonData=[];
-
+var fixtures=[];
 var Soccerama = require('soccerama').Soccerama;
 var soccerama = new Soccerama('wIMWFKl2nxNH5M1IhKq0MkCqo2S1zOPWjbee0r5Jnpaq0UWERrP5GovGLucy', 'v2.0');
 var url = "mongodb://localhost:27017/boibetdb";
@@ -88,21 +88,32 @@ function addcontinents(){
 });
 }
 function addFixtures(){
-    soccerama.get('fixtures/date/{date}',{date:'2018-10-24',localTeam: true,visitorTeam: true, flatOdds: true}).then( function(resp){
-        var  page= resp.meta.pagination.total_pages;
-    jsonData=resp.data;
-    console.log('Fixtures collected');
-    console.log(page);
+var today=new Date();
+var yesterday = new Date(today);
+yesterday.setDate(today.getDate()-1);
+     month = '' + (yesterday.getMonth() + 1),
+        day = '' + yesterday.getDate(),
+        year = yesterday.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+    var date1=[year, month, day].join('-');
+
+    request('https://soccer.sportmonks.com/api/v2.0/fixtures/date/'+date1+'?api_token=wIMWFKl2nxNH5M1IhKq0MkCqo2S1zOPWjbee0r5Jnpaq0UWERrP5GovGLucy&leagues=5,8,9,12,14,20,23,24,27,30,32,35,38,42,82,85,175&include=localTeam,visitorTeam,flatOdds',
+        { json: true }, (err, res, body) => {
+  if (err) { return console.log(err); }
+    fixtures=body.data;
+console.log(fixtures);
      MongoClient.connect(url, { useNewUrlParser: true }, function(err, db) {
     if (err) throw err;
     var dbo = db.db(database);
-       var fixtures={};
-      for (var i=0;i<jsonData.length;i++) {
-           fixtures[i] =jsonData[i];
+       var fixture={};
+      for (var i=0;i<fixtures.length;i++) {
+           fixture[i] = fixtures[i];
       }
       var time=new Date();
-      var validdata={time, fixtures};
-  dbo.collection("Fixtures").insertOne(validdata, function(err, res) {
+      var validdata={time, fixture};
+  dbo.collection("Fixtures"+date1).insert(validdata, function(err, res) {
     if (err) throw err;
     console.log(" Fixtures Added");
     //db.close();
@@ -343,11 +354,11 @@ con.connect(function(err) {
 //addbookmarkes();
 //addContries();
 //addcontinents();
-//addFixtures();
+addFixtures();
 //addhighlights();
 //addLeagues();
 //addSeasons();
 //addMarkets();
 //addlivescores();
 //saveFixtures();
-savepremierleaguefix();
+//savepremierleaguefix();
